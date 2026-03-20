@@ -778,9 +778,9 @@ function stuff(subs,sel,act)
 	sr.outline=tags:match("\\bord([^\\}]+)") or sr.outline
 	sr.shadow=tags:match("\\shad([^\\}]+)") or sr.shadow
 	sr.align=tags:match("\\an(%d)") or sr.align
-	sr.margin_l=line.margin_l or sr.margin_l
-	sr.margin_r=line.margin_r or sr.margin_r
-	sr.margin_t=line.margin_t or sr.margin_t
+	sr.margin_l=(line.margin_l ~= 0 and line.margin_l) or sr.margin_l
+	sr.margin_r=(line.margin_r ~= 0 and line.margin_r) or sr.margin_r
+	sr.margin_t=(line.margin_t ~= 0 and line.margin_t) or sr.margin_t
 	
 	stylename={{class="label",label="Style Name"},{y=1,class="edit",name="snam",value=""},
 	{y=2,class="checkbox",name="switch",label="switch to new style",value=true},
