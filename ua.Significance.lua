@@ -765,10 +765,10 @@ function stuff(subs,sel,act)
 	sr.color2="&H"..a2..color2.."&"
 	sr.color3="&H"..a3..color3.."&"
 	sr.color4="&H"..a4..color4.."&"
-	sr.bold=tags:match("\\b([01])") or sr.bold 
-	sr.italic=tags:match("\\i([01])") or sr.italic 
-	sr.underline=tags:match("\\u([01])") or sr.underline 
-	sr.strikeout=tags:match("\\s([01])") or sr.strikeout 
+	sr.bold=makebool(tags:match("\\b([01])") or sr.bold)
+	sr.italic=makebool(tags:match("\\i([01])") or sr.italic)
+	sr.underline=makebool(tags:match("\\u([01])") or sr.underline)
+	sr.strikeout=makebool(tags:match("\\s([01])") or sr.strikeout)
 	sr.fontname=tags:match("\\fn([^\\}]+)") or sr.fontname
 	sr.fontsize=tags:match("\\fs(%d+)") or sr.fontsize 
 	sr.scale_x=tags:match("\\fscx([^\\}]+)") or sr.scale_x
@@ -813,7 +813,7 @@ function stuff(subs,sel,act)
 		    st=subs[i]
 		    if st.name==sr.name then t_error("Style with that name already exists",1) end
 		end
-		if subs[i].class=="dialogue" then subs.insert(i,sr)
+		if subs[i].class=="dialogue" then subs[-i] = sr
 		for z,s in ipairs(sel) do sel[z]=sel[z]+1 end
 		break end
 	end
@@ -2354,6 +2354,7 @@ end
 function loggtab(m) m=tf(m) or "nil" aegisub.log("\n {"..table.concat(m,', ').."}") end
 function progress(msg) if aegisub.progress.is_cancelled() then ak() end aegisub.progress.title(msg) end
 function t_error(message,cancel) ADD({{class="label",label=message}},{"OK"},{close='OK'}) if cancel then ak() end end
+function makebool(val) if type(val) == "string" then return val == "1" else return val end end
 
 function addtag3(tg,txt)
 	no_tf=txt:gsub("\\t%b()","")
